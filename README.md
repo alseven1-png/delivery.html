@@ -22,27 +22,26 @@
                 <h1 class="text-2xl font-black italic tracking-tight">DELIVERY ONLINE</h1>
                 <p class="text-xs text-amber-200 font-bold uppercase tracking-widest">Panadería y Cocina</p>
             </div>
-            <div class="bg-amber-700 p-3 rounded-2xl">
-                <i class="fas fa-moped text-2xl"></i>
+            <div class="bg-amber-700 p-3 rounded-2xl border border-amber-600">
+                <i class="fas fa-moped text-2xl text-amber-100"></i>
             </div>
         </div>
     </header>
 
-    <main class="p-4 space-y-4 max-w-md mx-auto" id="lista-productos">
-        </main>
+    <main class="p-4 space-y-4 max-w-md mx-auto" id="lista-productos"></main>
 
-    <div id="cart-bar" class="fixed bottom-0 left-0 right-0 bg-white p-6 cart-footer hidden z-50">
+    <div id="cart-bar" class="fixed bottom-0 left-0 right-0 bg-white p-6 cart-footer hidden z-50 border-t">
         <div class="max-w-md mx-auto">
             <div class="flex justify-between items-center mb-4">
                 <div>
                     <p class="text-gray-400 text-xs font-bold uppercase">Total del pedido</p>
                     <p class="text-3xl font-black text-amber-900" id="total-view">$ 0</p>
                 </div>
-                <button onclick="enviarWhatsApp()" class="bg-green-500 hover:bg-green-600 text-white px-8 py-4 rounded-2xl font-bold shadow-lg flex items-center gap-3 transition-all active:scale-95">
+                <button onclick="enviarWhatsApp()" class="bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-2xl font-bold shadow-lg flex items-center gap-3 transition-all active:scale-95">
                     PEDIR <i class="fab fa-whatsapp text-2xl"></i>
                 </button>
             </div>
-            <p class="text-[10px] text-center text-gray-400 font-bold">AL TOCAR SE ENVIARÁ EL WHATSAPP PARA COORDINAR</p>
+            <p class="text-[10px] text-center text-gray-500 font-bold uppercase tracking-wider">Al tocar se enviará el WhatsApp</p>
         </div>
     </div>
 
@@ -78,7 +77,7 @@
             container.innerHTML = PRODUCTOS.map(p => `
                 <div class="product-card bg-white p-5 shadow-sm flex items-center justify-between">
                     <div class="flex-1 pr-4">
-                        <h3 class="font-bold text-gray-800 text-lg leading-tight">${p.nombre}</h3>
+                        <h3 class="font-bold text-gray-800 text-lg leading-tight italic">${p.nombre}</h3>
                         <p class="text-amber-700 font-black text-xl mt-1">$ ${p.precio.toLocaleString('es-AR')}</p>
                     </div>
                     <div class="flex items-center gap-3 bg-gray-50 rounded-full p-1 border">
