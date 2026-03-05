@@ -7,51 +7,85 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        .product-card { transition: all 0.2s; border-radius: 1.25rem; border: 1px solid #f3f4f6; }
-        .product-card:active { transform: scale(0.96); }
-        .btn-qty { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
-        .cart-footer { box-shadow: 0 -10px 25px rgba(0,0,0,0.1); border-radius: 2rem 2rem 0 0; }
-        body { font-family: sans-serif; }
+        .product-card { transition: all 0.2s; border-radius: 1.25rem; border: 1px solid #e5e7eb; }
+        .product-card:active { transform: scale(0.97); }
+        .btn-qty { width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; border-radius: 50%; shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .cart-footer { box-shadow: 0 -10px 30px rgba(0,0,0,0.15); border-radius: 2rem 2rem 0 0; }
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 100; align-items: center; justify-content: center; padding: 20px; }
+        .modal.active { display: flex; }
     </style>
 </head>
-<body class="bg-gray-50 pb-40">
+<body class="bg-slate-50 pb-40">
 
-    <header class="bg-amber-800 text-white p-6 sticky top-0 z-50 shadow-md">
+    <header class="bg-amber-900 text-white pt-10 pb-6 px-6 sticky top-0 z-50 shadow-xl border-b-4 border-amber-600">
         <div class="flex justify-between items-center max-w-md mx-auto">
             <div>
-                <h1 class="text-2xl font-black italic tracking-tight">DELIVERY ONLINE</h1>
-                <p class="text-xs text-amber-200 font-bold uppercase tracking-widest">Panadería y Cocina</p>
+                <h1 class="text-3xl font-black italic tracking-tighter uppercase">Nuestra Cocina</h1>
+                <p class="text-xs text-amber-300 font-bold tracking-[0.2em]">DELIVERY & TAKE AWAY</p>
             </div>
-            <div class="bg-amber-700 p-3 rounded-2xl border border-amber-600">
-                <i class="fas fa-moped text-2xl text-amber-100"></i>
+            <div class="bg-amber-800 p-4 rounded-3xl shadow-inner border border-amber-700">
+                <i class="fas fa-utensils text-2xl text-amber-200"></i>
             </div>
         </div>
     </header>
 
+    <div class="max-w-md mx-auto mt-4 px-4">
+        <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r-xl shadow-sm">
+            <div class="flex items-center gap-3">
+                <i class="fas fa-university text-blue-600 text-xl"></i>
+                <div>
+                    <p class="text-[10px] font-bold text-blue-400 uppercase tracking-widest leading-none">Aceptamos Transferencia</p>
+                    <p class="text-sm font-black text-blue-800 uppercase tracking-tight">Alias: TU.ALIAS.AQUI</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <main class="p-4 space-y-4 max-w-md mx-auto" id="lista-productos"></main>
 
     <div id="cart-bar" class="fixed bottom-0 left-0 right-0 bg-white p-6 cart-footer hidden z-50 border-t">
-        <div class="max-w-md mx-auto">
-            <div class="flex justify-between items-center mb-4">
-                <div>
-                    <p class="text-gray-400 text-xs font-bold uppercase">Total del pedido</p>
-                    <p class="text-3xl font-black text-amber-900" id="total-view">$ 0</p>
-                </div>
-                <button onclick="enviarWhatsApp()" class="bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-2xl font-bold shadow-lg flex items-center gap-3 transition-all active:scale-95">
-                    PEDIR <i class="fab fa-whatsapp text-2xl"></i>
-                </button>
+        <div class="max-w-md mx-auto flex justify-between items-center">
+            <div>
+                <p class="text-gray-400 text-[10px] font-black uppercase tracking-widest">Total Estimado</p>
+                <p class="text-3xl font-black text-amber-900" id="total-view">$ 0</p>
             </div>
-            <p class="text-[10px] text-center text-gray-500 font-bold uppercase tracking-wider">Al tocar se enviará el WhatsApp</p>
+            <button onclick="abrirResumen()" class="bg-green-600 hover:bg-green-700 text-white px-10 py-5 rounded-2xl font-black shadow-lg flex items-center gap-3 transition-all active:scale-90">
+                VER RESUMEN <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+    </div>
+
+    <div id="modal-resumen" class="modal">
+        <div class="bg-white w-full max-w-sm rounded-[2.5rem] overflow-hidden shadow-2xl animate-bounce-in">
+            <div class="bg-amber-900 p-6 text-white text-center">
+                <h2 class="text-xl font-black italic uppercase">Tu Pedido</h2>
+            </div>
+            <div class="p-6">
+                <div id="detalle-lista" class="space-y-3 mb-6 max-h-60 overflow-y-auto font-medium text-gray-700">
+                    </div>
+                <hr class="mb-4">
+                <div class="flex justify-between items-center mb-6">
+                    <span class="font-bold text-gray-400 uppercase text-xs">A pagar:</span>
+                    <span class="text-2xl font-black text-amber-900" id="total-modal">$ 0</span>
+                </div>
+                <div class="space-y-3">
+                    <button onclick="enviarWhatsApp()" class="w-full bg-green-600 text-white py-5 rounded-2xl font-bold text-lg flex justify-center items-center gap-3">
+                        CONFIRMAR POR WHATSAPP <i class="fab fa-whatsapp text-2xl"></i>
+                    </button>
+                    <button onclick="cerrarResumen()" class="w-full text-gray-400 font-bold text-sm uppercase tracking-widest py-2">
+                        Seguir comprando
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 
     <script>
         const WHATSAPP_NUMBER = "5492215087314";
-        
         const PRODUCTOS = [
-            { id: 1, nombre: "Empanada (Carne/Pollo/Verd/Hum/JyQ)", precio: 2700 },
+            { id: 1, nombre: "Empanada (Varios gustos)", precio: 2700 },
             { id: 2, nombre: "Calzón", precio: 3200 },
-            { id: 3, nombre: "Sándwich de Milanesa Grande", precio: 18000 },
+            { id: 3, nombre: "Sándwich de Mila Grande", precio: 18000 },
             { id: 4, nombre: "Sándwich de Miga Chico", precio: 9000 },
             { id: 5, nombre: "Tortilla de Papa", precio: 9100 },
             { id: 6, nombre: "Tortilla de Verdura", precio: 9100 },
@@ -75,15 +109,15 @@
         function render() {
             const container = document.getElementById('lista-productos');
             container.innerHTML = PRODUCTOS.map(p => `
-                <div class="product-card bg-white p-5 shadow-sm flex items-center justify-between">
+                <div class="product-card bg-white p-5 flex items-center justify-between shadow-sm">
                     <div class="flex-1 pr-4">
-                        <h3 class="font-bold text-gray-800 text-lg leading-tight italic">${p.nombre}</h3>
+                        <h3 class="font-extrabold text-gray-800 text-lg leading-tight">${p.nombre}</h3>
                         <p class="text-amber-700 font-black text-xl mt-1">$ ${p.precio.toLocaleString('es-AR')}</p>
                     </div>
-                    <div class="flex items-center gap-3 bg-gray-50 rounded-full p-1 border">
-                        <button onclick="updateCart(${p.id}, -1)" class="btn-qty bg-white text-gray-400 shadow-sm border border-gray-100"><i class="fas fa-minus"></i></button>
-                        <span id="qty-${p.id}" class="w-6 text-center font-bold text-lg text-gray-700">0</span>
-                        <button onclick="updateCart(${p.id}, 1)" class="btn-qty bg-amber-600 text-white shadow-md"><i class="fas fa-plus"></i></button>
+                    <div class="flex items-center gap-3 bg-gray-100 rounded-full p-1.5 border border-gray-200">
+                        <button onclick="updateCart(${p.id}, -1)" class="btn-qty bg-white text-gray-400 shadow-sm border border-gray-100"><i class="fas fa-minus text-xs"></i></button>
+                        <span id="qty-${p.id}" class="w-6 text-center font-black text-lg text-gray-800 uppercase">0</span>
+                        <button onclick="updateCart(${p.id}, 1)" class="btn-qty bg-amber-600 text-white shadow-md"><i class="fas fa-plus text-xs"></i></button>
                     </div>
                 </div>
             `).join('');
@@ -108,17 +142,41 @@
             if(items > 0) bar.classList.remove('hidden'); else bar.classList.add('hidden');
         }
 
+        function abrirResumen() {
+            const lista = document.getElementById('detalle-lista');
+            let total = 0;
+            let html = "";
+            PRODUCTOS.forEach(p => {
+                if(carrito[p.id] > 0) {
+                    const subtotal = p.precio * carrito[p.id];
+                    html += `<div class="flex justify-between border-b border-gray-100 pb-2">
+                                <span><span class="font-black text-amber-700">${carrito[p.id]}x</span> ${p.nombre}</span>
+                                <span class="font-bold">$ ${subtotal.toLocaleString('es-AR')}</span>
+                             </div>`;
+                    total += subtotal;
+                }
+            });
+            lista.innerHTML = html;
+            document.getElementById('total-modal').innerText = `$ ${total.toLocaleString('es-AR')}`;
+            document.getElementById('modal-resumen').classList.add('active');
+        }
+
+        function cerrarResumen() {
+            document.getElementById('modal-resumen').classList.remove('active');
+        }
+
         function enviarWhatsApp() {
-            let texto = "🛒 *NUEVO PEDIDO DE COCINA*\n-----------------------------\n";
+            let texto = "🛒 *NUEVO PEDIDO*\n-----------------------------\n";
             let total = 0;
             PRODUCTOS.forEach(p => {
                 if(carrito[p.id] > 0) {
-                    texto += `• ${carrito[p.id]} x ${p.nombre}\n`;
+                    texto += `• ${carrito[p.id]} x ${p.nombre} ($${(p.precio * carrito[p.id]).toLocaleString('es-AR')})\n`;
                     total += (p.precio * carrito[p.id]);
                 }
             });
             texto += `\n-----------------------------\n💰 *TOTAL: $ ${total.toLocaleString('es-AR')}*`;
-            texto += `\n\n🏠 _Indique dirección y horario de entrega:_`;
+            texto += `\n\n🏠 _Indique dirección de entrega:_`;
+            texto += `\n💳 _¿Desea el link de pago/Alias?_`;
             
             const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(texto)}`;
             window.open(url, '_blank');
